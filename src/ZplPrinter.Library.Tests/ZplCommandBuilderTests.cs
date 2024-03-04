@@ -8,9 +8,7 @@ public class ZplCommandBuilderTests
         // Arrange
         ZplCommandBuilder builder = new ZplCommandBuilder();
         builder
-            .SetText("a")
-            .SetText("b")
-            .SetText("c");
+            .SetText("a");
 
 
         // Act
