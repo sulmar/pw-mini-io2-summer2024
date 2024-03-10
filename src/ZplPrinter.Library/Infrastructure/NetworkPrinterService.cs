@@ -1,18 +1,12 @@
 ﻿using System.Net.Sockets;
-using System.Net;
 using ZplPrinter.Library.Abstractions;
 
-namespace ZplPrinter.Library.Infrastructure;
-
-public class NetworkPrinterService : IPrinterService
+public class NetworkPrinterService(string ipAddress, int port) : IPrinterService
 {
-    private IPAddress ipAddress;
-    private int port;
-
-    public NetworkPrinterService(IPAddress ipAddress, int port)
+    public NetworkPrinterService(string ipAddress) 
+        : this(ipAddress, 500)
     {
-        this.ipAddress = ipAddress;
-        this.port = port;
+        
     }
 
     public void Print(string content)
