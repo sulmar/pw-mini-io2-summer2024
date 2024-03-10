@@ -2,17 +2,21 @@ namespace ZplPrinter.Library.Tests;
 
 public class ZplCommandBuilderTests
 {
+    private readonly ZplCommandBuilder sut; // sut - System Under Test
+
+    public ZplCommandBuilderTests()
+    {
+        sut = ZplCommandBuilder.CreateLabel();
+    }
+
     [Fact]
     public void FieldData_ValidText_ShouldReturnsCommand()
     {
         // Arrange
-        ZplCommandBuilder builder = ZplCommandBuilder.CreateLabel();
-        builder
-            .SetText("a");
-
+        sut.SetText("a");
 
         // Act
-        var result = builder.Build();
+        var result = sut.Build();
 
         // Assert
 
@@ -25,7 +29,6 @@ public class ZplCommandBuilderTests
     public void SetBarcode_ValidBarcode_ShouldReturnsZplCommand()
     {
         // Arrange
-        ZplCommandBuilder sut = ZplCommandBuilder.CreateLabel();
         sut.SetBarcode("a", "C", 1, 2);
 
         // Act
