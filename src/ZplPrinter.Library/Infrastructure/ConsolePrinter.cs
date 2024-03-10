@@ -3,7 +3,7 @@ using ZplPrinter.Library.Abstractions;
 
 namespace ZplPrinter.Library.Infrastructure
 {
-    internal class ConsolePrinter : IPrinter
+    internal class ConsolePrinter : IPrinterService
     {
         public void Print(string content)
         {

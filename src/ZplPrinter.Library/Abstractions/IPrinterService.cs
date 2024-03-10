@@ -1,6 +1,6 @@
 ﻿namespace ZplPrinter.Library.Abstractions;
 
-internal interface IPrinter
+internal interface IPrinterService
 {
     void Print(string content);
 }
