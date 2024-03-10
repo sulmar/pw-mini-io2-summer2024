@@ -6,7 +6,7 @@ public class ZplCommandBuilderTests
     public void FieldData_ValidText_ShouldReturnsCommand()
     {
         // Arrange
-        ZplCommandBuilder builder = new ZplCommandBuilder();
+        ZplCommandBuilder builder = ZplCommandBuilder.CreateLabel();
         builder
             .SetText("a");
 

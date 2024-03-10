@@ -6,9 +6,14 @@ public class ZplCommandBuilder
 {
     private StringBuilder _stringBuilder = new StringBuilder();
 
-    public ZplCommandBuilder()
+    private ZplCommandBuilder()
     {
         StartFormat();
+    }
+
+    public static ZplCommandBuilder CreateLabel()
+    {
+        return new ZplCommandBuilder();
     }
 
     private void FieldData(string a)
