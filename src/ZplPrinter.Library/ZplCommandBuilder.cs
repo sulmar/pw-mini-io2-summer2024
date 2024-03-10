@@ -29,7 +29,7 @@ public class ZplCommandBuilder
 
     private void EndFormat()
     {
-        _stringBuilder.AppendLine("^XZ");
+        _stringBuilder.Append("^XZ");
     }
 
     public ZplCommandBuilder SetText(string text)
@@ -37,6 +37,12 @@ public class ZplCommandBuilder
         FieldData(text); 
 
         return this;
+    }
+
+    public void SetBarcode(string barcode, string format, int x, int y)
+    {
+        _stringBuilder.Append($"^B{format},{x},{y}\n");
+        FieldData(barcode);
     }
 
     public string Build()

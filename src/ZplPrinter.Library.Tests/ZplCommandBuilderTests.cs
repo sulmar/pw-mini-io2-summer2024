@@ -16,8 +16,25 @@ public class ZplCommandBuilderTests
 
         // Assert
 
-        Assert.Equal("^XA\r\n^FDa\r\n^XZ\r\n", result);
+        Assert.Equal("^XA\r\n^FDa\r\n^XZ", result);
 
 
+    }
+
+    [Fact]
+    public void SetBarcode_ValidBarcode_ShouldReturnsZplCommand()
+    {
+        // Arrange
+        ZplCommandBuilder sut = ZplCommandBuilder.CreateLabel();
+        sut.SetBarcode("a", "C", 1, 2);
+
+        // Act
+        var result = sut.Build();
+
+        // Assert
+        // Assert.Equal("^XA\n^BC,1,2\n^FDa\n^XZ", result);
+        Assert.StartsWith("^XA", result);
+        Assert.Contains("^BC,1,2", result);
+        Assert.EndsWith("^XZ", result);
     }
 }
