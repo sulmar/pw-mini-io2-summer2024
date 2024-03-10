@@ -20,7 +20,7 @@ public class ZplCommandBuilderTests
 
         // Assert
         // Test szczegó³owy 
-        // Assert.Equal("^XA\r\n^FDa\r\n^XZ", result);
+        Assert.Equal("^XA^FDa^XZ", result);
 
         // Test ogólny
         Assert.StartsWith("^XA", result);
@@ -41,7 +41,7 @@ public class ZplCommandBuilderTests
 
         // Assert
         // Test szczegó³owy 
-        // Assert.Equal("^XA\n^BC,1,2\n^FDa\n^XZ", result);
+        Assert.Equal("^XA^BC,1,2^FDa^XZ", result);
 
         // Test ogólny
         Assert.StartsWith("^XA", result);

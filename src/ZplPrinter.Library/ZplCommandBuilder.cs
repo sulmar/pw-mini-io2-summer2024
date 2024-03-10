@@ -18,12 +18,12 @@ public class ZplCommandBuilder
 
     private void FieldData(string a)
     {
-        _stringBuilder.AppendLine($"^FD{a}");
+        _stringBuilder.Append($"^FD{a}");
     }
 
     private void StartFormat()
     {
-        _stringBuilder.AppendLine("^XA");
+        _stringBuilder.Append("^XA");
 
     }
 
@@ -41,7 +41,7 @@ public class ZplCommandBuilder
 
     public void SetBarcode(string barcode, string format, int x, int y)
     {
-        _stringBuilder.Append($"^B{format},{x},{y}\n");
+        _stringBuilder.Append($"^B{format},{x},{y}");
         FieldData(barcode);
     }
 
