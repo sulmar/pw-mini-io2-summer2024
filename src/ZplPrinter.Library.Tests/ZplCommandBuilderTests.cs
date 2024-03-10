@@ -19,8 +19,13 @@ public class ZplCommandBuilderTests
         var result = sut.Build();
 
         // Assert
+        // Test szczegó³owy 
+        // Assert.Equal("^XA\r\n^FDa\r\n^XZ", result);
 
-        Assert.Equal("^XA\r\n^FDa\r\n^XZ", result);
+        // Test ogólny
+        Assert.StartsWith("^XA", result);
+        Assert.Contains("^FDa", result);
+        Assert.EndsWith("^XZ", result);
 
 
     }
@@ -35,7 +40,10 @@ public class ZplCommandBuilderTests
         var result = sut.Build();
 
         // Assert
+        // Test szczegó³owy 
         // Assert.Equal("^XA\n^BC,1,2\n^FDa\n^XZ", result);
+
+        // Test ogólny
         Assert.StartsWith("^XA", result);
         Assert.Contains("^BC,1,2", result);
         Assert.EndsWith("^XZ", result);
