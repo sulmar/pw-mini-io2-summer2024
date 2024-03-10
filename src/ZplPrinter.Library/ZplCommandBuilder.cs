@@ -4,7 +4,7 @@ namespace ZplPrinter.Library;
 
 public class ZplCommandBuilder
 {
-    private StringBuilder _stringBuilder = new StringBuilder();
+    private readonly StringBuilder _stringBuilder = new StringBuilder();
 
     private ZplCommandBuilder()
     {
