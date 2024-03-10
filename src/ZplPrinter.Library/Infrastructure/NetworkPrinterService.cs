@@ -1,9 +1,9 @@
 ﻿using System.Net.Sockets;
 using ZplPrinter.Library.Abstractions;
 
-public class NetworkPrinter(string ipAddress, int port) : IPrinter
+public class NetworkPrinterService(string ipAddress, int port) : IPrinterService
 {
-    public NetworkPrinter(string ipAddress) 
+    public NetworkPrinterService(string ipAddress) 
         : this(ipAddress, 500)
     {
         
