@@ -35,7 +35,11 @@ public class DiscountCalculatorTest
     [Fact]
     public void CalculateDiscount_PriceBelowZero_ShouldThrowArgumentExceptionWithMessage()
     {
-        Assert.Fail();
+        DiscountCalculator discountCalculator = new DiscountCalculator();
+
+        Action act = () => discountCalculator.CalculateDiscount(-1, string.Empty);
+
+        var exception = Assert.Throws<ArgumentException>(act);
     }
 
     [Fact]
