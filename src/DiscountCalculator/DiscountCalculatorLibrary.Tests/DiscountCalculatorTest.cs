@@ -2,7 +2,7 @@ namespace DiscountCalculatorLibrary.Tests;
 
 public class DiscountCalculatorTest
 {
-    private readonly DiscountCalculator sut;
+    private DiscountCalculator sut;
 
     public DiscountCalculatorTest()
     {
@@ -53,5 +53,29 @@ public class DiscountCalculatorTest
         Assert.Equal("Invalid discount code", exception.Message);
     }
 
+    [Fact]
+    public void CalculateDiscount_UseDiscountCode_ShouldBeDiscountedBy50PercentPrice()
+    {
+        sut = new DiscountCalculator(["A"]);
+
+        var result = sut.CalculateDiscount(10, "A");
+
+        Assert.Equal(5, result);
+    }
+
+    [Fact]
+    public void CalculateDiscount_UseTwiceDiscountCode_ShouldThrowArgumentExceptionWithMessage()
+    {
+        sut = new DiscountCalculator(["A"]);
+
+        const string ValidDiscountCode = "A";
+
+        sut.CalculateDiscount(1, ValidDiscountCode);
+
+        Action act = () => sut.CalculateDiscount(0, ValidDiscountCode);
+
+        var exception = Assert.Throws<ArgumentException>(act);
+        Assert.Equal("Invalid discount code", exception.Message);
+    }
 
 }
