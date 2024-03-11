@@ -38,8 +38,7 @@ classDiagram
 
 ## Zastosowania
 
-
-Oczywiście! Oto kilka przykładowych zastosowań wzorca Builder:
+Przykładowe zastosowania wzorca Budowniczego:
 
 1. **Tworzenie obiektów złożonych:** Wzorzec Builder jest użyteczny, gdy konstrukcja obiektu wymaga wielu kroków lub gdy obiekt ma złożoną strukturę. Na przykład, gdy tworzysz obiekt reprezentujący zamówienie online, który może zawierać wiele produktów, dane klienta, adres dostawy itp.
 
