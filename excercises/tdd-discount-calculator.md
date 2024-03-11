@@ -34,4 +34,4 @@ Pamiętaj o robieniu na bieżąco commitów do Gita.
 | Pokrycie testami    | 2 pkt  |
 | Refaktoring         | 2 pkt  |
 | Dodatkowe wymaganie | 1 pkt  |
-| Wzorce Projektowe   | 2 pkt  |
+| Wzorce Projektowe   | 1 pkt  |
