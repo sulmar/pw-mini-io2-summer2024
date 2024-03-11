@@ -5,7 +5,11 @@ public class DiscountCalculatorTest
     [Fact]
     public void CalculateDiscount_EmptyDiscountCode_ShouldBeOriginalPrice()
     {
-        Assert.Fail();
+        DiscountCalculator discountCalculator = new DiscountCalculator();
+
+        var result = discountCalculator.CalculateDiscount(1, string.Empty);
+
+        Assert.Equal(1, result);
     }
 
     [Fact]
