@@ -1,10 +1,10 @@
 namespace DiscountCalculatorLibrary.Tests;
 
-public class DiscountCalculatorTest
+public class DiscountCalculatorTests
 {
     private DiscountCalculator sut;
 
-    public DiscountCalculatorTest()
+    public DiscountCalculatorTests()
     {
         sut = new DiscountCalculator();
     }
