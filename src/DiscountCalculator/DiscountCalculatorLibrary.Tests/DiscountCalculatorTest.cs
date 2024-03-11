@@ -25,7 +25,11 @@ public class DiscountCalculatorTest
     [Fact]
     public void CalculateDiscount_DISCOUNT20OFFDiscountCode_ShouldBeDiscountedBy20PercentPrice()
     {
-        Assert.Fail();
+        DiscountCalculator discountCalculator = new DiscountCalculator();
+
+        var result = discountCalculator.CalculateDiscount(10, "DISCOUNT20OFF");
+
+        Assert.Equal(8, result);
     }
 
     [Fact]
