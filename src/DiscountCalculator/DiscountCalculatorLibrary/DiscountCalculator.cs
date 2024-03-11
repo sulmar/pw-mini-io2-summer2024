@@ -17,6 +17,8 @@ public class DiscountCalculator
 
     public decimal CalculateDiscount(decimal price, string discountCode)
     {
+        // TODO: Refactor this
+
         if (price < 0)
             throw new ArgumentException("Negatives not allowed");
 
