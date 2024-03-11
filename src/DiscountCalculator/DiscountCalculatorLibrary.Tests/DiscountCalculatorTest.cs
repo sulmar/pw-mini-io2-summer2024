@@ -15,7 +15,11 @@ public class DiscountCalculatorTest
     [Fact]
     public void CalculateDiscount_SAVE10NOWDiscountCode_ShouldBeDiscountedBy10PercentPrice()
     {
-        Assert.Fail();
+        DiscountCalculator discountCalculator = new DiscountCalculator();
+
+        var result = discountCalculator.CalculateDiscount(10, "SAVE10NOW");
+
+        Assert.Equal(9, result);
     }
 
     [Fact]
