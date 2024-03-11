@@ -2,6 +2,19 @@
 
 public class DiscountCalculator
 {
+    private readonly HashSet<string> discountCodes=[];
+
+    public DiscountCalculator()
+    {
+        
+    }
+
+    public DiscountCalculator(IEnumerable<string> discountCodes)
+            : this()
+    {
+        this.discountCodes = discountCodes.ToHashSet();
+    }
+
     public decimal CalculateDiscount(decimal price, string discountCode)
     {
         if (price < 0)
@@ -15,6 +28,13 @@ public class DiscountCalculator
 
         if (discountCode == "DISCOUNT20OFF")
             return price - price * 0.2m;
+
+        if (discountCodes.Contains(discountCode))
+        {
+            discountCodes.Remove(discountCode);
+
+            return price - price * 0.5m;
+        }
 
         throw new ArgumentException("Invalid discount code");
     }
