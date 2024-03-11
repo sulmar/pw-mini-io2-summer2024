@@ -17,20 +17,14 @@ public class DiscountCalculatorTest
         Assert.Equal(1, result);
     }
 
-    [Fact]
-    public void CalculateDiscount_SAVE10NOWDiscountCode_ShouldBeDiscountedBy10PercentPrice()
+    [Theory]
+    [InlineData(10, "SAVE10NOW", 9)]
+    [InlineData(10, "DISCOUNT20OFF", 8)]
+    public void CalculateDiscount_DiscountCode_ShouldBeDiscounted(decimal price, string discountCode, decimal expectedPrice)
     {
-        var result = sut.CalculateDiscount(10, "SAVE10NOW");
+        var result = sut.CalculateDiscount(price, discountCode);
 
-        Assert.Equal(9, result);
-    }
-
-    [Fact]
-    public void CalculateDiscount_DISCOUNT20OFFDiscountCode_ShouldBeDiscountedBy20PercentPrice()
-    {
-        var result = sut.CalculateDiscount(10, "DISCOUNT20OFF");
-
-        Assert.Equal(8, result);
+        Assert.Equal(expectedPrice, result);
     }
 
     [Fact]
