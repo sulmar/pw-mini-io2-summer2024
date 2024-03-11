@@ -16,6 +16,6 @@ public class DiscountCalculator
         if (discountCode == "DISCOUNT20OFF")
             return price - price * 0.2m;
 
-        throw new NotImplementedException();
+        throw new ArgumentException("Invalid discount code");
     }
 }

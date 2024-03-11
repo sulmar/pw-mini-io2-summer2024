@@ -40,12 +40,19 @@ public class DiscountCalculatorTest
         Action act = () => discountCalculator.CalculateDiscount(-1, string.Empty);
 
         var exception = Assert.Throws<ArgumentException>(act);
+        Assert.Equal("Negatives not allowed", exception.Message);
     }
 
     [Fact]
     public void CalculateDiscount_InvalidDiscountCode_ShouldThrowArgumentExceptionWithMessage()
     {
-        Assert.Fail();
+        const string InvalidDiscountCode = "A";
+        DiscountCalculator discountCalculator = new DiscountCalculator();
+
+        Action act = () => discountCalculator.CalculateDiscount(0, InvalidDiscountCode);
+
+        var exception = Assert.Throws<ArgumentException>(act);
+        Assert.Equal("Invalid discount code", exception.Message);
     }
 
 
