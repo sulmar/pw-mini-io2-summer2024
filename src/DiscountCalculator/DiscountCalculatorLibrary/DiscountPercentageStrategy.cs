@@ -1,40 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace DiscountCalculatorLibrary;
 
-namespace DiscountCalculatorLibrary
+// Abstract Strategy
+public interface IDiscountStrategy
 {
-    // Abstract Strategy
-    public interface IDiscountStrategy
-    {
-        decimal Discount(decimal price);
-    }
+    decimal Discount(decimal price);
+}
 
-    // Object Null Pattern
-    public class NoDiscountStrategy : IDiscountStrategy
-    {
-        public decimal Discount(decimal price)
-        {
-            return decimal.Zero;
-        }
-    }
+// Concrete Strategy A
+public class PercentageDiscountStrategy(decimal _percentage) : IDiscountStrategy
+{
+    public decimal Discount(decimal price) => price * _percentage;
+}
 
-    // Concrete Strategy
-    public class DiscountPercentageStrategy : IDiscountStrategy
-    {
-        private readonly decimal _percentage;
 
-        public DiscountPercentageStrategy(decimal percentage)
-        {
-            _percentage = percentage;
-        }
-
-        public decimal Discount(decimal price)
-        {
-            return price * _percentage;
-        }
-    }
+// Concrete Strategy B
+public class FixedDiscountStrategy(decimal _amount) : IDiscountStrategy
+{
+    public decimal Discount(decimal price) => _amount;
 }

@@ -6,7 +6,7 @@ public class DiscountCalculatorTests
 
     public DiscountCalculatorTests()
     {
-        sut = new DiscountCalculator();
+        sut = new DiscountCalculator(new DiscountStrategyFactory());
     }
 
     [Fact]
@@ -50,7 +50,7 @@ public class DiscountCalculatorTests
     [Fact]
     public void CalculateDiscount_UseDiscountCode_ShouldBeDiscountedBy50PercentPrice()
     {
-        sut = new DiscountCalculator(["A"]);
+        sut = new DiscountCalculator(new DiscountStrategyFactory(["A"]));
 
         var result = sut.CalculateDiscount(10, "A");
 
@@ -60,7 +60,7 @@ public class DiscountCalculatorTests
     [Fact]
     public void CalculateDiscount_UseTwiceDiscountCode_ShouldThrowArgumentExceptionWithMessage()
     {
-        sut = new DiscountCalculator(["A"]);
+        sut = new DiscountCalculator(new DiscountStrategyFactory( ["A"]));
 
         const string ValidDiscountCode = "A";
 
