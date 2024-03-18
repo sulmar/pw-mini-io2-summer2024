@@ -2,11 +2,11 @@
 
 public class DiscountCalculator
 {
-    private readonly HashSet<string> discountCodes=[];
+    private readonly HashSet<string> discountCodes = [];
 
     public DiscountCalculator()
     {
-        
+
     }
 
     public DiscountCalculator(IEnumerable<string> discountCodes)
@@ -25,19 +25,28 @@ public class DiscountCalculator
         if (string.IsNullOrEmpty(discountCode))
             return price;
 
+        IDiscountStrategy discountStrategy = null;
+
         if (discountCode == "SAVE10NOW")
-            return price - price * 0.1m;
-
+        {
+            discountStrategy = new DiscountPercentageStrategy(0.1m);
+        }
+        else
         if (discountCode == "DISCOUNT20OFF")
-            return price - price * 0.2m;
+        {
+            discountStrategy = new DiscountPercentageStrategy(0.2m);
+        }
 
+        else
         if (discountCodes.Contains(discountCode))
         {
             discountCodes.Remove(discountCode);
 
-            return price - price * 0.5m;
+            discountStrategy = new DiscountPercentageStrategy(0.5m);
         }
+        else
+            throw new ArgumentException("Invalid discount code");
 
-        throw new ArgumentException("Invalid discount code");
+        return price - discountStrategy.Discount(price);
     }
 }
