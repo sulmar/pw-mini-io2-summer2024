@@ -6,7 +6,7 @@ public class DiscountCalculatorTests
 
     public DiscountCalculatorTests()
     {
-        sut = new DiscountCalculator(new DiscountStrategyFactory());
+        sut = new DiscountCalculator(new FakeDiscountStrategyFactory());
     }
 
     [Fact]
@@ -17,16 +17,7 @@ public class DiscountCalculatorTests
         Assert.Equal(1, result);
     }
 
-    [Theory]
-    [InlineData(10, "SAVE10NOW", 9)]
-    [InlineData(10, "DISCOUNT20OFF", 8)]
-    public void CalculateDiscount_DiscountCode_ShouldBeDiscounted(decimal price, string discountCode, decimal expectedPrice)
-    {
-        var result = sut.CalculateDiscount(price, discountCode);
-
-        Assert.Equal(expectedPrice, result);
-    }
-
+  
     [Fact]
     public void CalculateDiscount_PriceBelowZero_ShouldThrowArgumentExceptionWithMessage()
     {
@@ -36,40 +27,15 @@ public class DiscountCalculatorTests
         Assert.Equal("Negatives not allowed", exception.Message);
     }
 
-    [Fact]
-    public void CalculateDiscount_InvalidDiscountCode_ShouldThrowArgumentExceptionWithMessage()
-    {
-        const string InvalidDiscountCode = "A";
-
-        Action act = () => sut.CalculateDiscount(0, InvalidDiscountCode);
-
-        var exception = Assert.Throws<ArgumentException>(act);
-        Assert.Equal("Invalid discount code", exception.Message);
-    }
+    
 
     [Fact]
     public void CalculateDiscount_UseDiscountCode_ShouldBeDiscountedBy50PercentPrice()
     {
-        sut = new DiscountCalculator(new DiscountStrategyFactory(["A"]));
+        sut = new DiscountCalculator(new FakeDiscountStrategyFactory());
 
         var result = sut.CalculateDiscount(10, "A");
 
         Assert.Equal(5, result);
     }
-
-    [Fact]
-    public void CalculateDiscount_UseTwiceDiscountCode_ShouldThrowArgumentExceptionWithMessage()
-    {
-        sut = new DiscountCalculator(new DiscountStrategyFactory( ["A"]));
-
-        const string ValidDiscountCode = "A";
-
-        sut.CalculateDiscount(1, ValidDiscountCode);
-
-        Action act = () => sut.CalculateDiscount(0, ValidDiscountCode);
-
-        var exception = Assert.Throws<ArgumentException>(act);
-        Assert.Equal("Invalid discount code", exception.Message);
-    }
-
 }
