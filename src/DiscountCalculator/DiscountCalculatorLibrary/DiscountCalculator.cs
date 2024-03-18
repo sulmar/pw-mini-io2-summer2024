@@ -1,6 +1,6 @@
 ﻿namespace DiscountCalculatorLibrary;
 
-public class DiscountCalculator(DiscountStrategyFactory discountStrategyFactory)
+public class DiscountCalculator(IDiscountStrategyFactory discountStrategyFactory)
 {
     public decimal CalculateDiscount(decimal price, string discountCode)
     {
@@ -12,6 +12,6 @@ public class DiscountCalculator(DiscountStrategyFactory discountStrategyFactory)
 
         IDiscountStrategy discountStrategy = discountStrategyFactory.Create(discountCode);
 
-        return price - discountStrategy.Discount(price);
+        return price - discountStrategy.CalculateDiscount(price);
     }
 }
