@@ -15,31 +15,13 @@
             this.discountCodes = discountCodes.ToHashSet();
         }
 
-        public IDiscountStrategy Create(string discountCode)
+        public IDiscountStrategy Create(string discountCode) => discountCode switch
         {
-            IDiscountStrategy discountStrategy = new NoDiscountStrategy();
-
-            switch (discountCode)
-            {
-                case "SAVE10NOW":
-                    discountStrategy = new PercentageDiscountStrategy(0.1m);
-                    break;
-                case "DISCOUNT20OFF":
-                    discountStrategy = new PercentageDiscountStrategy(0.2m);
-                    break;
-                default:
-                    if (discountCodes.Contains(discountCode))
-                    {
-                        discountCodes.Remove(discountCode);
-
-                        discountStrategy = new PercentageDiscountStrategy(0.5m);
-                    }
-                    else
-                        throw new ArgumentException("Invalid discount code");
-                    break;
-            }
-
-            return discountStrategy;
-        }
+            "SAVE10NOW" => new PercentageDiscountStrategy(0.1m),
+            "DISCOUNT20OFF" => new PercentageDiscountStrategy(0.2m),
+            var limitedCode when discountCodes.Remove(limitedCode)
+                => new PercentageDiscountStrategy(0.5m),
+            _ => throw new ArgumentException("Invalid discount code")
+        };
     }
 }
