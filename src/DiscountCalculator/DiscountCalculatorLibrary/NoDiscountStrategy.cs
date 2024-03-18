@@ -3,7 +3,7 @@
     // Object Null Pattern
     public class NoDiscountStrategy : IDiscountStrategy
     {
-        public decimal Discount(decimal price)
+        public decimal CalculateDiscount(decimal price)
         {
             return decimal.Zero;
         }
