@@ -19,7 +19,7 @@
         {
             "SAVE10NOW" => new PercentageDiscountStrategy(0.1m),
             "DISCOUNT20OFF" => new PercentageDiscountStrategy(0.2m),
-            var limitedCode when discountCodes.Remove(limitedCode)
+            var _ when discountCodes.Remove(discountCode)
                 => new PercentageDiscountStrategy(0.5m),
             _ => throw new ArgumentException("Invalid discount code")
         };
