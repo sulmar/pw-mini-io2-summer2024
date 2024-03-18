@@ -13,6 +13,15 @@ namespace DiscountCalculatorLibrary
         decimal Discount(decimal price);
     }
 
+    // Object Null Pattern
+    public class NoDiscountStrategy : IDiscountStrategy
+    {
+        public decimal Discount(decimal price)
+        {
+            return decimal.Zero;
+        }
+    }
+
     // Concrete Strategy
     public class DiscountPercentageStrategy : IDiscountStrategy
     {

@@ -25,27 +25,27 @@ public class DiscountCalculator
         if (string.IsNullOrEmpty(discountCode))
             return price;
 
-        IDiscountStrategy discountStrategy = null;
+        IDiscountStrategy discountStrategy = new NoDiscountStrategy();
 
-        if (discountCode == "SAVE10NOW")
+        switch (discountCode)
         {
-            discountStrategy = new DiscountPercentageStrategy(0.1m);
-        }
-        else
-        if (discountCode == "DISCOUNT20OFF")
-        {
-            discountStrategy = new DiscountPercentageStrategy(0.2m);
-        }
+            case "SAVE10NOW":
+                discountStrategy = new DiscountPercentageStrategy(0.1m);
+                break;
+            case "DISCOUNT20OFF":
+                discountStrategy = new DiscountPercentageStrategy(0.2m);
+                break;
+            default:
+                if (discountCodes.Contains(discountCode))
+                {
+                    discountCodes.Remove(discountCode);
 
-        else
-        if (discountCodes.Contains(discountCode))
-        {
-            discountCodes.Remove(discountCode);
-
-            discountStrategy = new DiscountPercentageStrategy(0.5m);
+                    discountStrategy = new DiscountPercentageStrategy(0.5m);
+                }
+                else
+                    throw new ArgumentException("Invalid discount code");
+                break;
         }
-        else
-            throw new ArgumentException("Invalid discount code");
 
         return price - discountStrategy.Discount(price);
     }
