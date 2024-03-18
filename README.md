@@ -12,3 +12,6 @@ Do rozpoczęcia tego kursu potrzebujesz następujących rzeczy:
 git clone https://github.com/sulmar/pw-mini-io2-summer2024
 ```
 
+## Links
+- https://apps.usos.pw.edu.pl/developers/
+
