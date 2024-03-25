@@ -13,29 +13,20 @@ public class DiscountStrategyFactoryTests
 
         Assert.IsType<PercentageDiscountStrategy>(result);
     }
-    
-    [Fact]
-    public void Create_UseDiscountCode_ShouldReturnsPercentageDiscountStrategy()
-    {
-        var sut = new DiscountStrategyFactory(["A"]);
-
-        var result = sut.Create("A");
-
-        Assert.IsType<PercentageDiscountStrategy>(result);
-    }
 
     [Fact]
-    public void Create_UseTwiceDiscountCode_ShouldThrowArgumentExceptionWithMessage()
+    public void Create_WhenInvalidCode_ShouldThrowArgumentExceptionWithMessage()
     {
-        var sut = new DiscountCalculator(new DiscountStrategyFactory(["A"]));
+        const string InvalidDiscountCode = "A";
+        DiscountStrategyFactory sut = new DiscountStrategyFactory();
 
-        const string ValidDiscountCode = "A";
+        var exception = Assert.Throws<ArgumentException>(() => sut.Create(InvalidDiscountCode));
 
-        sut.CalculateDiscount(1, ValidDiscountCode);
-
-        Action act = () => sut.CalculateDiscount(0, ValidDiscountCode);
-
-        var exception = Assert.Throws<ArgumentException>(act);
         Assert.Equal("Invalid discount code", exception.Message);
     }
+
+
+
+
+
 }
