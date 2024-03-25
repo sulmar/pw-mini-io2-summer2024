@@ -1,5 +1,6 @@
 ﻿
 using LegacyPrinterExample;
+using System.Reflection;
 
 Console.WriteLine("Hello, Printer!");
 
@@ -10,19 +11,19 @@ bool legacy = false;
 string document = "Hello World!";
 int copies = 3;
 
+IPrinterAdapter printer;
 
 if (legacy)
 {
-    LegacyPrinter printer = new LegacyPrinter();
-
-    for (int i = 0; i < copies; i++)
-    {
-        printer.PrintDocument(document);
-    }
+     printer = new LegacyPrinterAdapter();   
 }
 else
 {
-    Printer printer = new Printer();
-    printer.Print(document, copies);
-    Console.WriteLine($"Counter: {printer.Counter}");
+    printer = new Printer();
 }
+
+var printer2 = new CounterPrinterDecorator(
+       new CostPrinterDecorator(printer));
+
+printer2.Print(document, copies);
+Console.WriteLine($"Counter: {printer2.Counter}");
