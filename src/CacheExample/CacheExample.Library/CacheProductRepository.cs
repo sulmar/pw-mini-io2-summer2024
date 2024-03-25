@@ -1,12 +1,17 @@
 namespace CacheExample;
 
-public class CacheProductRepository
+// Proxy
+public class CacheProductRepositoryProxy : IProductRepository
 {
     private IDictionary<int, Product> products;
 
-    public CacheProductRepository()
+    private readonly IProductRepository productRepository;
+
+    public CacheProductRepositoryProxy(IProductRepository productRepository)
     {
         products = new Dictionary<int, Product>();
+
+        this.productRepository = productRepository;
     }
 
     public void Add(Product product)
@@ -23,7 +28,17 @@ public class CacheProductRepository
             return product;
         }
         else
-            return null;            
+        {
+            // Real Subject
+            product = productRepository.Get(id);
+
+            if (product != null)
+            {
+                Add(product);
+            }
+
+            return product;
+        }        
     }
 
 }

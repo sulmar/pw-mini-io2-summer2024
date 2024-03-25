@@ -7,8 +7,8 @@ public class ProductsControllerTests
     public ProductsControllerTests()
     {
         productsController = new ProductsController(
-            new DbProductRepository(),
-            new CacheProductRepository());
+            new CacheProductRepositoryProxy( 
+                new DbProductRepository()));
     }
     
     [Fact]
