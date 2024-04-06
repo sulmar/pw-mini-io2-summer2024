@@ -10,7 +10,7 @@ bool legacy = true;
 string document = "Hello World!";
 int copies = 3;
 
-IPrinter printer = new CounterPrinterProxy(
+CounterPrinterProxy printer = new CounterPrinterProxy(
     new CostPrinterDecorator(
         PrinterFactory.Create(legacy), new CostPrinterCalculatorStrategy()));
 

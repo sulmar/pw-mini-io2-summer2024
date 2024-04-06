@@ -11,8 +11,6 @@ public class LegacyPrinterAdapter : IPrinter
         _printer = new LegacyPrinter();
     }
 
-    public int Counter => throw new NotSupportedException();
-
     public void Print(string document, int copies = 1)
     {
         for (int i = 0; i < copies; i++)
