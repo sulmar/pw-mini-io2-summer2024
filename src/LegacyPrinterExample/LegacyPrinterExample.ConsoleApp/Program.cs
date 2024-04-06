@@ -5,24 +5,14 @@ Console.WriteLine("Hello, Printer!");
 
 // TODO: Dodaj obliczanie kosztu wydruku i licznik do starej drukarki
 
-bool legacy = false;
+bool legacy = true;
 
 string document = "Hello World!";
 int copies = 3;
 
+IPrinter printer = new CounterPrinterProxy(
+    new CostPrinterDecorator(
+        PrinterFactory.Create(legacy), new CostPrinterCalculatorStrategy()));
 
-if (legacy)
-{
-    LegacyPrinter printer = new LegacyPrinter();
-
-    for (int i = 0; i < copies; i++)
-    {
-        printer.PrintDocument(document);
-    }
-}
-else
-{
-    Printer printer = new Printer();
-    printer.Print(document, copies);
-    Console.WriteLine($"Counter: {printer.Counter}");
-}
+printer.Print(document, copies);
+Console.WriteLine($"Counter: {printer.Counter}");

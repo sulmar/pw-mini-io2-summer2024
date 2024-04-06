@@ -9,9 +9,9 @@ public class ProductsController
         this.productRepository = productRepository;
     }
 
-    public Product Get(int id)
+    public Product? Get(int id)
     {
-        Product product = productRepository.Get(id);
+        Product? product = productRepository.Get(id);
 
         return product;
     }
