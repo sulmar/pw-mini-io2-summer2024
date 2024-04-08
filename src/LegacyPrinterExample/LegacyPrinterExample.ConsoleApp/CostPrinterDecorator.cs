@@ -9,11 +9,9 @@ public class CostPrinterDecorator : IPrinter
 
     public CostPrinterDecorator(IPrinter printer, ICostPrinterCalculatorStrategy strategy)
     {
-        _printer = printer;
+        this._printer = printer;
         this.strategy = strategy;
     }
-
-    public int Counter => throw new NotSupportedException();
 
     public void Print(string document, int copies = 1)
     {
