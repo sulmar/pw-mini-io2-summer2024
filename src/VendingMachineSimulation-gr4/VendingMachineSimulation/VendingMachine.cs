@@ -19,101 +19,67 @@
         Blik
     }
 
-    public enum State
-    {
-        Idle,
-        Selecting,
-        Checkout,
-        AwaitingPayment
-    }
+   
 
     public class VendingMachine
     {
         public VendingMachine()
         {
-            State = State.Idle;
+            State = new Idle(this);
         }
 
-        public State State { get; private set; }
+        public VendingMachineState State { get; set; }
 
-        private List<IProduct> selectedProducts = new List<IProduct>();
+        public List<IProduct> selectedProducts = new List<IProduct>();
 
-        private Decimal balance = 0;
+        public decimal Balance { get; set; } = 0;
 
         public bool IsEmpty()
         {
             return selectedProducts.Count == 0;
         }
 
-        private decimal TotalPrice => selectedProducts.Sum(p => p.Price);
+        public decimal TotalPrice => selectedProducts.Sum(p => p.Price);
 
         public void SelectProduct(IProduct product)
         {
-            if (State != State.Idle && State != State.Selecting)
-                throw new InvalidOperationException();
-            
-            selectedProducts.Add(product);
-
-            State = State.Selecting;
+           State.SelectProduct(product);
         }
 
         public void ConfirmSelected()
         {
-            if (State != State.Selecting)
-                throw new InvalidOperationException();
-
-            State = State.Checkout;
+            State.ConfirmSelected();
         }
 
         public void DeleteProduct(IProduct product)
         {
-            if (!selectedProducts.Contains(product))
-                throw new InvalidOperationException();
+            State.DeleteProduct(product);
 
-            selectedProducts.Remove(product);
-
-            if (IsEmpty())
-                this.State = State.Idle;
+          
         }
 
         public void ClearSelected()
         {
-            if (IsEmpty())
-                throw new InvalidOperationException();
-
-            selectedProducts.Clear();
-            this.State = State.Idle;
+           State.ClearSelected();
         }
 
         public void Pay(PaymentMethod method, decimal amount)
         {
-            if (amount <= 0)
-                throw new ArgumentException();
-
-            if (this.State != State.Checkout && this.State != State.AwaitingPayment)
-                throw new InvalidOperationException();
-
-            this.State = State.AwaitingPayment;
-
-            this.balance += amount;
-
-            if (this.balance >= TotalPrice)
-                ConfirmPayment();
+            State.Pay(method, amount);
         }
 
-        private void ConfirmPayment()
+        public void ConfirmPayment()
         {
-            this.balance = 0;
-            this.State = State.Idle;
+            this.Balance = 0;
+            
         }
 
         public void CancelPayment()
         {
-            if (this.State != State.AwaitingPayment)
-                throw new InvalidOperationException();
-
-            this.balance = 0;
-            this.State = State.Checkout;
+            State.CancelPayment();
         }
+
+
+
     }
 }

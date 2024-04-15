@@ -8,7 +8,7 @@ namespace VendingMachineSimulation.Tests
             VendingMachine sut = new VendingMachine();
 
             Assert.NotNull(sut);
-            Assert.Equal(State.Idle, sut.State);
+            Assert.IsType<Idle>(sut.State);
         }
 
         [Fact]
@@ -19,7 +19,7 @@ namespace VendingMachineSimulation.Tests
 
             sut.SelectProduct(product);
 
-            Assert.Equal(State.Selecting, sut.State);
+            Assert.IsType<Selecting>(sut.State);
         }
 
         [Fact]
@@ -28,10 +28,10 @@ namespace VendingMachineSimulation.Tests
             var sut = new VendingMachine();
             var product = new BasicProduct();
             sut.SelectProduct(product);
-            
+
             sut.SelectProduct(product);
 
-            Assert.Equal(State.Selecting, sut.State);
+            Assert.IsType<Selecting>(sut.State);
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace VendingMachineSimulation.Tests
 
             sut.ConfirmSelected();
 
-            Assert.Equal(State.Checkout, sut.State);
+            Assert.IsType<Checkout>(sut.State);
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace VendingMachineSimulation.Tests
             var product = new BasicProduct();
             sut.SelectProduct(product);
 
-           var act = () => sut.DeleteProduct(new BasicProduct());
+            var act = () => sut.DeleteProduct(new BasicProduct());
 
             Assert.Throws<InvalidOperationException>(act);
         }
@@ -79,7 +79,7 @@ namespace VendingMachineSimulation.Tests
             sut.DeleteProduct(product);
 
             Assert.True(sut.IsEmpty());
-            Assert.Equal(State.Idle, sut.State);
+            Assert.IsType<Idle>(sut.State);
         }
 
         [Fact]
@@ -94,7 +94,7 @@ namespace VendingMachineSimulation.Tests
             sut.DeleteProduct(product1);
 
             Assert.False(sut.IsEmpty());
-            Assert.Equal(State.Selecting, sut.State);
+            Assert.IsType<Selecting>(sut.State);
         }
 
         [Fact]
@@ -109,7 +109,7 @@ namespace VendingMachineSimulation.Tests
             sut.ClearSelected();
 
             Assert.True(sut.IsEmpty());
-            Assert.Equal(State.Idle, sut.State);
+            Assert.IsType<Idle>( sut.State);
         }
 
         [Fact]
@@ -132,7 +132,7 @@ namespace VendingMachineSimulation.Tests
 
             sut.Pay(PaymentMethod.Cash, 1);
 
-            Assert.Equal(State.Idle, sut.State);
+            Assert.IsType<Idle>(sut.State);
         }
 
         [Fact]
@@ -145,7 +145,7 @@ namespace VendingMachineSimulation.Tests
 
             sut.Pay(PaymentMethod.Cash, 0.5m);
 
-            Assert.Equal(State.AwaitingPayment, sut.State);
+            Assert.IsType<AwaitingPayment>(sut.State);
         }
 
         [Fact]
@@ -166,16 +166,19 @@ namespace VendingMachineSimulation.Tests
             sut.SelectProduct(product);
             sut.ConfirmSelected();
             sut.Pay(PaymentMethod.Cash, 0.5m);
-            
+
             sut.Pay(PaymentMethod.Cash, 0.5m);
 
-            Assert.Equal(State.Idle, sut.State);
+            Assert.IsType<Idle>( sut.State);
         }
 
         [Fact]
         public void Pay_NonPositivePrice_ShouldThrowsArgumentException()
         {
             var sut = new VendingMachine();
+            var product = new BasicProduct() { Price = 1 };
+            sut.SelectProduct(product);
+            sut.ConfirmSelected();
 
             var act = () => sut.Pay(PaymentMethod.Cash, -1);
 
@@ -193,7 +196,7 @@ namespace VendingMachineSimulation.Tests
 
             sut.CancelPayment();
 
-            Assert.Equal(State.Checkout, sut.State);
+            Assert.IsType<Checkout>(sut.State);
         }
 
         [Fact]
