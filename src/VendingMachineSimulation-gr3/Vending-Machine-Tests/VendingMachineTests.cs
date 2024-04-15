@@ -31,6 +31,20 @@ public class VendingMachineTests
     }
 
     [Fact]
+    public void SelectProduct_WhenTwiceCalled_SetProductSelectedState()
+    {
+        // Arrange
+        var machine = new VendingMachine();
+        machine.SelectProduct("A");
+
+        // Act
+        machine.SelectProduct("A");
+
+        // Assert
+        Assert.Equal(VendingMachine.State.ProductSelected, machine.MachineState);
+    }
+
+    [Fact]
     public void Clear_WhenCalledAfterSelectProduct_SetIdleState()
     {
         // Arrange

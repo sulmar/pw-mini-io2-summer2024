@@ -19,19 +19,18 @@ public class VendingMachine
     public VendingMachine()
     {
         MachineState = State.Idle;
-        _selectedPaymentMethod = null;
         _balance = 0M;
     }
 
     private decimal _balance;
-    private PaymentMethod? _selectedPaymentMethod;
+
 
     public State MachineState { get; private set; }
     public decimal Balance => _balance;
 
     public void SelectProduct(string  productName)
     {
-        if (MachineState != State.Idle)
+        if (MachineState != State.Idle && MachineState != State.ProductSelected)
             throw new InvalidOperationException();
 
         MachineState = State.ProductSelected;
