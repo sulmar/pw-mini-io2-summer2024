@@ -2,12 +2,16 @@
 
 public class VendingMachine
 {
-    public enum State
-    {
-        Idle, 
-        ProductSelected, 
-        AwaitingPayment, 
-    }
+
+   
+
+
+    //public enum State
+    //{
+    //    Idle, 
+    //    ProductSelected, 
+    //    AwaitingPayment, 
+    //}
 
     public enum PaymentMethod
     {
@@ -18,63 +22,50 @@ public class VendingMachine
 
     public VendingMachine()
     {
-        MachineState = State.Idle;
+        MachineState = new Idle(this);
         _balance = 0M;
     }
 
     private decimal _balance;
 
 
-    public State MachineState { get; private set; }
-    public decimal Balance => _balance;
+    public VendingMachineState MachineState { get; set; }
+
+   
+
+    public decimal Balance
+    {
+        get => _balance;
+        set => _balance =  value;
+    }
 
     public void SelectProduct(string  productName)
     {
-        if (MachineState != State.Idle && MachineState != State.ProductSelected)
-            throw new InvalidOperationException();
-
-        MachineState = State.ProductSelected;
+       MachineState.SelectProduct(productName);
     }
 
     public void Clear()
     {
-        if (MachineState != State.ProductSelected)
-            throw new InvalidOperationException();
-
-        MachineState = State.Idle;
+        MachineState.Clear();
     }
 
     public void SelectPaymentMethod(PaymentMethod paymentMethod)
     {
-        if (MachineState != State.ProductSelected)
-            throw new InvalidOperationException();
-
-        MachineState = State.AwaitingPayment;
+        MachineState.SelectPaymentMethod(paymentMethod);
     }
 
     public void CancelPayment()
     {
-        if (MachineState != State.AwaitingPayment)
-            throw new InvalidOperationException();
-        
-        MachineState = State.ProductSelected;
-        _balance = 0M;
+        MachineState.CancelPayment();
     }
 
     public void InsertCoin(decimal amount)
     {
-        if (MachineState != State.AwaitingPayment)
-            throw new InvalidOperationException();
-
-        _balance += amount;
+        MachineState.InsertCoin(amount);
     }
 
     public void Dispense()
     {
-        if (MachineState != State.AwaitingPayment)
-            throw new InvalidOperationException();
-
-        MachineState = State.Idle;
-        _balance = 0M;
+        MachineState.Dispense();
     }
 }

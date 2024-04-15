@@ -9,7 +9,7 @@
     public class BasicProduct : IProduct
     {
         public string Name { get; }
-        public decimal Price { get; }
+        public decimal Price { get; set; }
     }
 
     public enum PaymentMethod
@@ -38,6 +38,15 @@
 
         private List<IProduct> selectedProducts = new List<IProduct>();
 
+        private Decimal balance = 0;
+
+        public bool IsEmpty()
+        {
+            return selectedProducts.Count == 0;
+        }
+
+        private decimal TotalPrice => selectedProducts.Sum(p => p.Price);
+
         public void SelectProduct(IProduct product)
         {
             if (State != State.Idle && State != State.Selecting)
@@ -58,29 +67,53 @@
 
         public void DeleteProduct(IProduct product)
         {
-            throw new NotImplementedException();
+            if (!selectedProducts.Contains(product))
+                throw new InvalidOperationException();
+
+            selectedProducts.Remove(product);
+
+            if (IsEmpty())
+                this.State = State.Idle;
         }
 
         public void ClearSelected()
         {
-            throw new NotImplementedException();
+            if (IsEmpty())
+                throw new InvalidOperationException();
+
+            selectedProducts.Clear();
+            this.State = State.Idle;
         }
 
-        public void Pay(PaymentMethod method)
+        public void Pay(PaymentMethod method, decimal amount)
         {
-            throw new NotImplementedException();
+            if (amount <= 0)
+                throw new ArgumentException();
+
+            if (this.State != State.Checkout && this.State != State.AwaitingPayment)
+                throw new InvalidOperationException();
+
+            this.State = State.AwaitingPayment;
+
+            this.balance += amount;
+
+            if (this.balance >= TotalPrice)
+                ConfirmPayment();
         }
 
-        public void ConfirmPayment()
+        private void ConfirmPayment()
         {
-            throw new NotImplementedException();
+            this.balance = 0;
+            this.State = State.Idle;
         }
 
         public void CancelPayment()
         {
-            throw new NotImplementedException();
+            if (this.State != State.AwaitingPayment)
+                throw new InvalidOperationException();
+
+            this.balance = 0;
+            this.State = State.Checkout;
         }
-
-
     }
 }
