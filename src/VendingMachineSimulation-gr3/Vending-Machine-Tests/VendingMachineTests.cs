@@ -14,7 +14,7 @@ public class VendingMachineTests
         var machine = new VendingMachine();
 
         // Assert
-        Assert.IsType<Idle>(machine.MachineState);
+        Assert.Equal(VendingMachine.State.Idle, machine.MachineState);
     }
 
     [Fact]
@@ -27,7 +27,7 @@ public class VendingMachineTests
         machine.SelectProduct("A");
 
         // Assert
-        Assert.IsType<ProductSelected>(machine.MachineState);
+        Assert.Equal(VendingMachine.State.ProductSelected, machine.MachineState);
     }
 
     [Fact]
@@ -41,7 +41,7 @@ public class VendingMachineTests
         machine.SelectProduct("A");
 
         // Assert
-        Assert.IsType<ProductSelected>(machine.MachineState);
+        Assert.Equal(VendingMachine.State.ProductSelected, machine.MachineState);
     }
 
     [Fact]
@@ -55,7 +55,7 @@ public class VendingMachineTests
         machine.Clear();
 
         // Assert
-        Assert.IsType<Idle>(machine.MachineState);
+        Assert.Equal(VendingMachine.State.Idle, machine.MachineState);
     }
 
     [Fact]
@@ -69,7 +69,7 @@ public class VendingMachineTests
         machine.SelectPaymentMethod(VendingMachine.PaymentMethod.Cash);
 
         // Assert
-        Assert.IsType<AwaitingPayment>(machine.MachineState);
+        Assert.Equal(VendingMachine.State.AwaitingPayment, machine.MachineState);
     }
 
     [Fact]
@@ -84,7 +84,7 @@ public class VendingMachineTests
         machine.CancelPayment();
 
         // Assert
-        Assert.IsType<ProductSelected>(machine.MachineState);
+        Assert.Equal(VendingMachine.State.ProductSelected, machine.MachineState);
     }
 
     [Fact]
@@ -99,7 +99,7 @@ public class VendingMachineTests
         machine.InsertCoin(1M);
 
         // Assert
-        Assert.IsType<AwaitingPayment>(machine.MachineState);
+        Assert.Equal(VendingMachine.State.AwaitingPayment, machine.MachineState);
     }
 
     [Fact]
@@ -146,7 +146,7 @@ public class VendingMachineTests
         machine.Dispense();
 
         // Assert
-        Assert.IsType<Idle>(machine.MachineState);
+        Assert.Equal(VendingMachine.State.Idle, machine.MachineState);
     }
 
     [Fact]
