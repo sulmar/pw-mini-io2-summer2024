@@ -8,7 +8,7 @@ namespace VendingMachineSimulation.Tests
             VendingMachine sut = new VendingMachine();
 
             Assert.NotNull(sut);
-            Assert.IsType<Idle>(sut.State);
+            Assert.Equal(State.Idle, sut.State);
         }
 
         [Fact]
@@ -19,7 +19,7 @@ namespace VendingMachineSimulation.Tests
 
             sut.SelectProduct(product);
 
-            Assert.IsType<Selecting>(sut.State);
+            Assert.Equal(State.Selecting, sut.State);
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace VendingMachineSimulation.Tests
 
             sut.SelectProduct(product);
 
-            Assert.IsType<Selecting>(sut.State);
+            Assert.Equal(State.Selecting, sut.State);
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace VendingMachineSimulation.Tests
 
             sut.ConfirmSelected();
 
-            Assert.IsType<Checkout>(sut.State);
+            Assert.Equal(State.Checkout, sut.State);
         }
 
         [Fact]
@@ -79,7 +79,7 @@ namespace VendingMachineSimulation.Tests
             sut.DeleteProduct(product);
 
             Assert.True(sut.IsEmpty());
-            Assert.IsType<Idle>(sut.State);
+            Assert.Equal(State.Idle, sut.State);
         }
 
         [Fact]
@@ -94,7 +94,7 @@ namespace VendingMachineSimulation.Tests
             sut.DeleteProduct(product1);
 
             Assert.False(sut.IsEmpty());
-            Assert.IsType<Selecting>(sut.State);
+            Assert.Equal(State.Selecting, sut.State);
         }
 
         [Fact]
@@ -109,7 +109,7 @@ namespace VendingMachineSimulation.Tests
             sut.ClearSelected();
 
             Assert.True(sut.IsEmpty());
-            Assert.IsType<Idle>( sut.State);
+            Assert.Equal(State.Idle, sut.State);
         }
 
         [Fact]
@@ -132,7 +132,7 @@ namespace VendingMachineSimulation.Tests
 
             sut.Pay(PaymentMethod.Cash, 1);
 
-            Assert.IsType<Idle>(sut.State);
+            Assert.Equal(State.Idle, sut.State);
         }
 
         [Fact]
@@ -145,7 +145,7 @@ namespace VendingMachineSimulation.Tests
 
             sut.Pay(PaymentMethod.Cash, 0.5m);
 
-            Assert.IsType<AwaitingPayment>(sut.State);
+            Assert.Equal(State.AwaitingPayment, sut.State);
         }
 
         [Fact]
@@ -169,7 +169,7 @@ namespace VendingMachineSimulation.Tests
 
             sut.Pay(PaymentMethod.Cash, 0.5m);
 
-            Assert.IsType<Idle>( sut.State);
+            Assert.Equal(State.Idle, sut.State);
         }
 
         [Fact]
@@ -196,7 +196,7 @@ namespace VendingMachineSimulation.Tests
 
             sut.CancelPayment();
 
-            Assert.IsType<Checkout>(sut.State);
+            Assert.Equal(State.Checkout, sut.State);
         }
 
         [Fact]

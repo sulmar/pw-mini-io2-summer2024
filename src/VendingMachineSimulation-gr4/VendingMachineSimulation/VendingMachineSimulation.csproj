@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Stateless" Version="5.15.0" />
+  </ItemGroup>
+
 </Project>

@@ -1,4 +1,6 @@
-﻿namespace VendingMachineSimulation
+﻿using Stateless;
+
+namespace VendingMachineSimulation
 {
     public interface IProduct
     {
@@ -19,16 +21,57 @@
         Blik
     }
 
-   
+    public enum State
+    {
+        Idle,
+        Selecting,
+        Checkout,
+        AwaitingPayment
+    }
+
+    public enum Trigger
+    {
+        SelectProduct,
+        Cancel,
+        Pay,
+        Confirm,
+        DeleteProduct
+    }
 
     public class VendingMachine
     {
+        private StateMachine<State, Trigger> machine;
+
         public VendingMachine()
         {
-            State = new Idle(this);
+            machine = new StateMachine<State, Trigger>(State.Idle);
+
+            machine.Configure(State.Idle)
+                .Permit(Trigger.SelectProduct, State.Selecting);
+
+            machine.Configure(State.Selecting)
+                .PermitReentry(Trigger.SelectProduct)
+                .Permit(Trigger.Confirm, State.Checkout)
+                .Permit(Trigger.Cancel, State.Idle)
+                .PermitReentry(Trigger.DeleteProduct)
+                ;
+
+            machine.Configure(State.Checkout)
+                .PermitIf(Trigger.Pay, State.AwaitingPayment, () => Balance < TotalPrice)
+                .PermitIf(Trigger.Pay, State.Idle, () => Balance >= TotalPrice);
+
+            machine.Configure(State.AwaitingPayment)
+                .Permit(Trigger.Confirm, State.Idle)
+                .Permit(Trigger.Cancel, State.Checkout);
+
+
+            Console.WriteLine(Graph);
+
         }
 
-        public VendingMachineState State { get; set; }
+        public string Graph => Stateless.Graph.UmlDotGraph.Format( machine.GetInfo());
+
+        public State State => machine.State;
 
         public List<IProduct> selectedProducts = new List<IProduct>();
 
@@ -43,40 +86,51 @@
 
         public void SelectProduct(IProduct product)
         {
-           State.SelectProduct(product);
+            selectedProducts.Add(product);
+
+            machine.Fire(Trigger.SelectProduct);
         }
 
         public void ConfirmSelected()
         {
-            State.ConfirmSelected();
+            machine.Fire(Trigger.Confirm);
         }
 
         public void DeleteProduct(IProduct product)
         {
-            State.DeleteProduct(product);
+            if (!selectedProducts.Contains(product))
+                throw new InvalidOperationException();
 
-          
+            selectedProducts.Remove(product);
+
+            machine.Fire(Trigger.DeleteProduct);
         }
 
         public void ClearSelected()
         {
-           State.ClearSelected();
+            if (IsEmpty())
+                throw new InvalidOperationException();
+
+            selectedProducts.Clear();
+
+            machine.Fire(Trigger.Cancel);
         }
 
         public void Pay(PaymentMethod method, decimal amount)
         {
-            State.Pay(method, amount);
+            machine.Fire(Trigger.Pay);
         }
 
         public void ConfirmPayment()
         {
             this.Balance = 0;
-            
+
         }
 
         public void CancelPayment()
         {
-            State.CancelPayment();
+            Balance = 0;
+            machine.Fire(Trigger.Cancel);
         }
 
 
